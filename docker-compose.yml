@@ -44,9 +44,34 @@ services:
         '--collation-server=utf8_unicode_ci'
       ]
 
+###> symfony/mercure-bundle ###
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: 'GlooudsMercure-JWTKey'
+      MERCURE_SUBSCRIBER_JWT_KEY: 'GlooudsMercure-JWTKey'
+      # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins * 
+    # Comment the following line to disable the development mode
+    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+    networks:
+      - codenip-php72-symfony54-network
+    volumes:
+      - mercure_data:/data
+      - mercure_config:/config
+###< symfony/mercure-bundle ###
+
 networks:
   codenip-php72-symfony54-network:
 
 
 volumes:
   codenip-php72-symfony54-mysql-data:
+
+###> symfony/mercure-bundle ###
+  mercure_data:
+  mercure_config:
+###< symfony/mercure-bundle ###
