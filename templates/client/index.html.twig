@@ -18,9 +18,20 @@
 {% block javascripts %}
     <script>
         let ul = null;
-        const es = new EventSource('http://localhost:3000/.well-known/mercure?topic=1e9');
+        const hubUrl = new URL('http://localhost:3000/.well-known/mercure');
+        hubUrl.searchParams.append('topic', '1e9');
+
+        const lastEventId = localStorage.getItem('lastEventId');
+        if (lastEventId != null){
+            hubUrl.searchParams.append('Last-Event-ID', lastEventId);
+        }
+
+        const es = new EventSource(hubUrl);
+
         es.onmessage = e => {
             console.log(e.data);
+            
+            localStorage.setItem('lastEventId', e.lastEventId);
             const data = JSON.parse(e.data);
 
             if (!ul) {

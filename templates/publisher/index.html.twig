@@ -11,10 +11,14 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/appdata/www/src/Controller/PublisherController.php'|file_link(0) }}">src/Controller/PublisherController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/appdata/www/templates/publisher/index.html.twig'|file_link(0) }}">templates/publisher/index.html.twig</a></code></li>
-    </ul>
+    <h3>Ingrese evento a enviar: </h3>
+
+    <iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
+
+    <form action="http://localhost:1000/publisher/1e9" method="post" target="dummyframe">
+        <label for="headline">Mensaje:</label>
+        <input type="text" id="headline" name="headline"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </div>
 {% endblock %}
